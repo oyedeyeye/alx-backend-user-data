@@ -6,7 +6,7 @@ import os
 from typing import List, Dict, Tuple
 import logging
 import re
-from mysql.connector
+import mysql.connector
 
 
 PII_FIELDS: Tuple[str] = ("name", "email", "phone", "ssn", "password")

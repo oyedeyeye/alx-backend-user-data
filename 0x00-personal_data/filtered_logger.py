@@ -6,7 +6,7 @@ import os
 from typing import List, Dict, Tuple
 import logging
 import re
-import mysql.connector
+from mysql.connector import connection
 
 
 PII_FIELDS: Tuple[str] = ("name", "email", "phone", "ssn", "password")
@@ -39,12 +39,12 @@ def get_db() -> connection.MySQLConnection:
     db_name = os.getenv("PERSONAL_DATA_DB_NAME", "")
     db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
     db_pwd = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
-    connector = mysql.connector.connect(
+    connector = connection.MySQLConnection(
         host=db_host,
         port=3306,
         user=db_user,
         password=db_pwd,
-        database=db_name,
+        database=db_name
     )
     return connector
 

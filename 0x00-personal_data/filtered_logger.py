@@ -16,6 +16,7 @@ patterns = {
 
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
+
 def filter_datum(fields: List[str],
                  redaction: str, message: str, separator: str) -> str:
     """returns the log message filtered"""
@@ -50,5 +51,6 @@ class RedactingFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         """format a log record"""
         msg_log = super(RedactingFormatter, self).format(record)
-        txt_str = filter_datum(self.fields, self.REDACTION, msg_log, self.SEPARATOR)
+        txt_str = filter_datum(self.fields, self.REDACTION,
+                               msg_log, self.SEPARATOR)
         return txt_str

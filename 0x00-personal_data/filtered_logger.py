@@ -69,7 +69,7 @@ def get_logger() -> logging.Logger:
             msg = '{};'.format('; '.join(list(record)))
             args = ("user_data", logging.INFO, None, None, msg, None, None)
             log_record = logging.LogRecord(*args)
-            info_logger.handle(log_record
+            info_logger.handle(log_record)
 
 
 class RedactingFormatter(logging.Formatter):

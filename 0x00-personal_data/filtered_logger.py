@@ -3,18 +3,18 @@
 
 
 import os
-from typing import List
+from typing import List, Dict, Tuple
 import logging
 import re
 import mysql.connector
 
 
-patterns = {
+patterns: Dict[str] = {
     'extract': lambda x, y: r'(?P<field>{})=[^{}]*'.format('|'.join(x), y),
     'replace': lambda x: r'\g<field>={}'.format(x),
 }
 
-PII_FIELDS = ("name", "email", "phone", "ssn", "password")
+PII_FIELDS: Tuple[str] = ("name", "email", "phone", "ssn", "password")
 
 
 def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:

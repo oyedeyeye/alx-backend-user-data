@@ -15,7 +15,7 @@ PII_FIELDS: Tuple[str] = ("name", "email", "phone", "ssn", "password")
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """returns the log message filtered"""
-    temp = message
+    temp: str = message
     for field in fields:
         temp = re.sub(field + "=.*?" + separator,
                       field + "=" + redaction + separator, temp)
@@ -35,10 +35,10 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """connector to a mySQL daabase"""
-    db_host: str = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
-    db_name: str = os.getenv("PERSONAL_DATA_DB_NAME", "")
-    db_user: str = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
-    db_pwd: str = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME", "")
+    db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_pwd = os.getenv("PERSONAL_DATA_DB_PASSWORD")
     connector = mysql.connector.connection.MySQLConnection(
         host=db_host,
         port=3306,

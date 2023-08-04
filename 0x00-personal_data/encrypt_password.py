@@ -17,7 +17,7 @@ def hash_password(password: str) -> bytes:
     return bcrypt.hashpw(paswd, bcrypt.gensalt())
 
 
-def is_valid(hashed_password: bytes, password: str) -> str:
+def is_valid(hashed_password: bytes, password: str) -> bool:
     """expects 2 arguments and returns a boolean
     Arguments:
         hashed_password: bytes type

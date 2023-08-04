@@ -9,10 +9,17 @@ import bcrypt
 
 
 def hash_password(password: str) -> bytes:
-    """returns a salted, hashed password, which is a byte string"""
+    """returns a salted, hashed password, which is a byte string
+    Arguments:
+        password: string type
+    """
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
 
 def is_valid(hashed_password: bytes, password: str) -> str:
-    """expects 2 arguments and returns a boolean"""
+    """expects 2 arguments and returns a boolean
+    Arguments:
+        hashed_password: bytes type
+        password: string type
+    """
     return bcrypt.checkpw(password.encode('utf-8'), hashed_password)

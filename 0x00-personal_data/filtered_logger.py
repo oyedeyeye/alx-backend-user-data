@@ -6,7 +6,7 @@ import os
 from typing import List, Dict, Tuple
 import logging
 import re
-from mysql.connector
+from mysql.connector import (connection)
 
 
 PII_FIELDS: Tuple[str] = ("name", "email", "phone", "ssn", "password")
@@ -35,11 +35,11 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """connector to a mySQL daabase"""
-    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
-    db_name = os.getenv("PERSONAL_DATA_DB_NAME", "")
-    db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
-    db_pwd = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
-    connector = mysql.connector.connection.MySQLConnection(
+    db_host: str = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name: str = os.getenv("PERSONAL_DATA_DB_NAME", "")
+    db_user: str = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_pwd: str = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    connector = mysql.connector.connect(
         host=db_host,
         port=3306,
         user=db_user,

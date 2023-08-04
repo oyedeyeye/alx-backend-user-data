@@ -9,18 +9,17 @@ import re
 import mysql.connector
 
 
-patterns: Dict[str] = {
-    'extract': lambda x, y: r'(?P<field>{})=[^{}]*'.format('|'.join(x), y),
-    'replace': lambda x: r'\g<field>={}'.format(x),
-}
-
 PII_FIELDS: Tuple[str] = ("name", "email", "phone", "ssn", "password")
 
 
-def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:
+def filter_datum(fields: List[str], redaction: str,
+                 message: str, separator: str) -> str:
     """returns the log message filtered"""
-    extract, replace = (patterns["extract"], patterns["replace"])
-    return re.sub(extract(fields, separator), replace(redaction), message)
+    temp = message
+    for field in fields:
+        temp = re.sub(field + "=.*?" + separator,
+                      field + "=" + redaction + separator, temp)
+    return temp
 
 
 def get_logger() -> logging.Logger:
@@ -34,23 +33,23 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-    def get_db() -> mysql.connector.connection.MySQLConnection:
-        """connector to a mySQL daabase"""
-        db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
-        db_name = os.getenv("PERSONAL_DATA_DB_NAME", "")
-        db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
-        db_pwd = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
-        connection = mysql.connector.connect(
-            host=db_host,
-            port=3306,
-            user=db_user,
-            password=db_pwd,
-            database=db_name,
-        )
-        return connection
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """connector to a mySQL daabase"""
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME", "")
+    db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_pwd = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    connection = mysql.connector.connect(
+        host=db_host,
+        port=3306,
+        user=db_user,
+        password=db_pwd,
+        database=db_name,
+    )
+    return connection
 
 
-    def main() -> None:
+def main() -> None:
     '''Logging user records in a table    '''
     fields = "name,email,phone,ssn,password,ip,last_login,user_agent"
     columns = fields.split(',')

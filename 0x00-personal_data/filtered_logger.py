@@ -50,7 +50,7 @@ def get_logger() -> logging.Logger:
         return connection
 
 
-    def main():
+    def main() -> None:
     '''Logging user records in a table    '''
     fields = "name,email,phone,ssn,password,ip,last_login,user_agent"
     columns = fields.split(',')
@@ -69,6 +69,7 @@ def get_logger() -> logging.Logger:
             args = ("user_data", logging.INFO, None, None, msg, None, None)
             log_record = logging.LogRecord(*args)
             info_logger.handle(log_record)
+    db.close()
 
 
 class RedactingFormatter(logging.Formatter):

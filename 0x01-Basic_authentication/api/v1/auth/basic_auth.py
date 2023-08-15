@@ -91,4 +91,4 @@ class BasicAuth(Auth):
         decoded_header = self.decode_base64_authorization_header(b64_header)
         # Extract user credentials and retrieve user from DB Object
         user_cred = self.extract_user_credentials(decoded_header)
-        return self.user_object_from_credentials(user_cred)
+        return self.user_object_from_credentials(user_cred[0], user_cred[1])
